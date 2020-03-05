@@ -1,2 +1,2 @@
-# ESP32_Remote_Controll
-ESP32 based remote control
+# NRF_Remote_Controll
+NRF based remote control
