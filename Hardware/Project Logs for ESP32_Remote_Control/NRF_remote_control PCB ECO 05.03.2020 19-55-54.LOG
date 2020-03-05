@@ -1,0 +1,26 @@
+Change Component Designator: OldDesignator=S? NewDesignator=S1
+Change Component Designator: OldDesignator=S? NewDesignator=S2
+Change Component Designator: OldDesignator=S? NewDesignator=S3
+Change Component Designator: OldDesignator=S? NewDesignator=S4
+Change Component Designator: OldDesignator=S? NewDesignator=S5
+Change Component Designator: OldDesignator=S? NewDesignator=S6
+Change Component Designator: OldDesignator=S? NewDesignator=S7
+Change Component Designator: OldDesignator=S? NewDesignator=S8
+Change Component Designator: OldDesignator=S? NewDesignator=S9
+Change Component Designator: OldDesignator=S? NewDesignator=S10
+Change Component Designator: OldDesignator=S? NewDesignator=S11
+Added Net: Name=NetS5_1
+Added Net: Name=NetS5_2
+Added Net: Name=NetS5_3
+Added Net: Name=NetS5_B
+Added Net: Name=NetS5_C
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S1 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S2 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S3 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S4 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S5 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S6 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S7 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S8 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S9 MP86A0BUH-G
+Added Member To Class: ClassName=ESP32_Remote_Control Member=Component S11 MP86A0BUH-G
