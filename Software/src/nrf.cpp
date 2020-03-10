@@ -8,32 +8,11 @@ uint16_t txLen = 0, txOffset = 0;
 uint8_t rxBuf[MAX_PACKET_LEN];
 uint16_t rxLen = 0, rxOffset = 0, rxCounter = 0;
 
-// uint8_t calcChecksum(initPacket_t pkg) {
-//     uint8_t chk = 0;
-//     chk ^= pkg.cmd.raw;
-//     chk ^= (pkg.ip >> 24) & 0xFF;
-//     chk ^= (pkg.ip >> 16) & 0xFF;
-//     chk ^= (pkg.ip >>  8) & 0xFF;
-//     chk ^= (pkg.ip >>  0) & 0xFF;
-//     // chk ^= (pkg.len >> 8) & 0xFF;
-//     chk ^= (pkg.len >> 0) & 0xFF;
-//     for(uint8_t i = 0; i < pkg.len; i++) {
-//         chk ^= pkg.payload[i];
-//     }
-//     return chk;
-// }
+void (*_callback)(uint8_t*, uint16_t) = NULL;
 
-// uint8_t calcChecksum(dataPacket_t pkg) {
-//     uint8_t chk = 0;
-//     chk ^= pkg.cmd.raw;
-//     chk ^= pkg.packetNum;
-//     // chk ^= (pkg.payloadLen >> 8) & 0xFF;
-//     chk ^= (pkg.len >> 0) & 0xFF;
-//     for(uint8_t i = 0; i < DATA_PAYLOAD_LEN; i++) {
-//         chk ^= pkg.payload[i];
-//     }
-//     return chk;
-// }
+void setNRFCallback(void (*cb)(uint8_t*, uint16_t)) { 
+    _callback = cb; 
+}
 
 uint8_t calcChecksum(packet_t pkg) {
     uint8_t chk = 0;
@@ -77,6 +56,7 @@ void sendUDPChunk() {
     uint8_t buf[pkg.dataPayload.dataLen];
     memcpy(buf, txBuf, pkg.dataPayload.dataLen);
     pkg.dataPayload.data = buf;
+    txOffset += pkg.dataPayload.dataLen;
 
     pkg.checksum = calcChecksum(pkg);
     bool success = rf.write(&pkg, pkg.dataPayload.dataLen + DATA_HEADER_LEN); // blocking for now, TODO see if it's okay
@@ -139,17 +119,32 @@ void handlePacket(uint8_t *buf, uint16_t size) {
                 }
                 if(pkg.cmd.lastPacket) {
                     // handle data and set rxLen back to 0 when finished
+                    if(_callback) {
+                        _callback(rxBuf, rxLen);
+                    }
+                    rxLen = 0;
                 }
             }
             break;
         case CMD_DATA: {
-            rxLen = pkg.dataPayload.dataLen;
-            // TODO: continue here
+            uint8_t len = pkg.dataPayload.dataLen;
+            // simply write data into buffer at offset calculated by packetNumber
+            // don't do any integrity checks as of right now, TODO
+            uint8_t offset = INIT_PAYLOAD_LEN + pkg.dataPayload.packetNum * DATA_PAYLOAD_LEN;
+            if(offset + len <= MAX_PACKET_LEN) {
+                memcpy(rxBuf + offset, pkg.initPayload.data, len);
+                rxLen += len;
+            }
+            if(pkg.cmd.lastPacket) {
+                if(_callback) {
+                    _callback(rxBuf, rxLen);
+                }
+                rxLen = 0;
+            }
             break;
         }
     }
 }
-
 
 void initNRF() {
     rf.begin();

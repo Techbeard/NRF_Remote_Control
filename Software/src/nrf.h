@@ -2,7 +2,7 @@
 #include <RF24.h>
 #include <IPAddress.h>
 
-#define MAX_PACKET_LEN  1500
+#define MAX_PACKET_LEN  256
 
 typedef enum : uint8_t {
     CMD_INIT = 0,
@@ -45,24 +45,8 @@ typedef struct {
     };
 } packet_t;
 
-// typedef struct {
-//     cmd_t cmd;
-//     uint8_t checksum;
-//     uint8_t len;
-//     uint32_t ip;
-//     uint16_t port;
-//     uint8_t* payload;
-// } initPacket_t;
-
-// typedef struct {
-//     cmd_t cmd;
-//     uint8_t checksum;
-//     uint8_t len;
-//     uint8_t packetNum;
-//     uint8_t* payload;
-// } dataPacket_t;
-
 void initNRF();
 void loopNRF();
 void sendUDP(IPAddress ip, uint16_t port, String payload);
 void sendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size);
+void setNRFCallback(void (*cb)(uint8_t*, uint16_t));
