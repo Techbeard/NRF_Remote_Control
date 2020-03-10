@@ -2,12 +2,9 @@
 #include <RF24.h>
 #include <IPAddress.h>
 
-#define MAX_PACKET_LEN  256
-
 typedef enum : uint8_t {
     CMD_INIT = 0,
-    CMD_DATA = 1,
-    CMD_DATA_END = 2
+    CMD_DATA = 1
 } pkgType_t;
 
 typedef union {
