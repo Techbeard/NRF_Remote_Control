@@ -14,6 +14,22 @@ void setNRFCallback(void (*cb)(uint8_t*, uint16_t)) {
     _callback = cb; 
 }
 
+void log(packet_t pkg) {
+    char buf[200];
+    switch(pkg.cmd.type) {
+        case CMD_INIT:
+            snprintf(buf, 200, "INIT last=%d chk=%3d ip=%08lX port=%5d len=%3d payload=%.32s", 
+                pkg.cmd.lastPacket, pkg.checksum, pkg.initPayload.ip, pkg.initPayload.port, pkg.initPayload.dataLen, pkg.initPayload.data);
+            Serial.println(buf);
+            break;
+        case CMD_DATA:
+            snprintf(buf, 200, "DATA last=%d chk=%3d num=%3d len=%3d payload=%.32s", 
+                pkg.cmd.lastPacket, pkg.checksum,  pkg.dataPayload.packetNum, pkg.dataPayload.dataLen, pkg.dataPayload.data);
+            Serial.println(buf);
+            break;
+    }
+}
+
 uint8_t calcChecksum(packet_t pkg) {
     uint8_t chk = 0;
     chk ^= pkg.cmd.raw;
@@ -59,7 +75,11 @@ void sendUDPChunk() {
     txOffset += pkg.dataPayload.dataLen;
 
     pkg.checksum = calcChecksum(pkg);
+    rf.stopListening();
     bool success = rf.write(&pkg, pkg.dataPayload.dataLen + DATA_HEADER_LEN); // blocking for now, TODO see if it's okay
+    rf.startListening();
+    Serial.print("UDP Chunk " + String(success) + " ");
+    log(pkg);
 
     // if first transfer failed, don't bother with the rest of it
     if(!success) {
@@ -91,7 +111,11 @@ void sendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size) {
     }
 
     pkg.checksum = calcChecksum(pkg);
+    rf.stopListening();
     bool success = rf.write(&pkg, pkg.initPayload.dataLen + INIT_HEADER_LEN); // blocking for now, TODO see if it's okay
+    rf.startListening();
+    Serial.print("UDP Send " + String(success) + " ");
+    log(pkg);
     
     // if first transfer failed, don't bother with the rest of it
     if(!success) {
@@ -105,6 +129,8 @@ void sendUDP(IPAddress ip, uint16_t port, String payload) {
 
 void handlePacket(uint8_t *buf, uint16_t size) {
     packet_t pkg = *(packet_t*)buf;
+    Serial.print("Receive ");
+    log(pkg);
 
     if(pkg.checksum != calcChecksum(pkg)) {
         return;
@@ -161,7 +187,11 @@ void loopNRF() {
 
     if(rf.available()) {
         uint8_t buf[rf.getPayloadSize()];
-        rf.read(buf, rf.getPayloadSize());
+        while(rf.available()) {
+            rf.read(buf, rf.getPayloadSize());
+        }
+        Serial.print("DEBUG Received: ");
+        Serial.println((char*)buf);
         handlePacket(buf, rf.getPayloadSize());
     }
 }
