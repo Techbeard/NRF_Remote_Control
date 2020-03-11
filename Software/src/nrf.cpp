@@ -174,9 +174,10 @@ void handlePacket(uint8_t *buf, uint16_t size) {
 
 void initNRF() {
     rf.begin();
-    rf.setPALevel(RF24_PA_LOW);
-    rf.openWritingPipe((uint8_t *) NRF_GATEWAY_ADDRESS);
-    rf.openReadingPipe(1, (uint8_t *) NRF_REMOTE_ADDRESS);
+    // rf.setPALevel(RF24_PA_LOW);
+    rf.setDataRate(RF24_250KBPS);
+    rf.openWritingPipe((uint8_t *) NRF_TX_ADDRESS);
+    rf.openReadingPipe(1, (uint8_t *) NRF_RX_ADDRESS);
     rf.startListening();
 }
 

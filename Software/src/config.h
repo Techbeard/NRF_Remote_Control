@@ -1,3 +1,5 @@
+#define SENDER
+
 #ifdef __AVR__
     #define NRF_CS_PIN  8
     #define NRF_CE_PIN  7
@@ -6,10 +8,12 @@
     #define NRF_CE_PIN  PA1
 #endif
 
-// #define NRF_GATEWAY_ADDRESS "DGTW"
-// #define NRF_REMOTE_ADDRESS  "DRMT0"
-
-#define NRF_REMOTE_ADDRESS "DGTW"
-#define NRF_GATEWAY_ADDRESS  "DRMT0"
+#ifdef SENDER
+    #define NRF_TX_ADDRESS "DGTW"
+    #define NRF_RX_ADDRESS  "DRMT0"
+#else
+    #define NRF_RX_ADDRESS "DGTW"
+    #define NRF_TX_ADDRESS  "DRMT0"
+#endif
 
 #define MAX_PACKET_LEN  256
