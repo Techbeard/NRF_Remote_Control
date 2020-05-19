@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [NRF_remote_control.PcbDoc]
+   Generated File[NRF_remote_control-RoundHoles.TXT]
+   Generated File[NRF_remote_control-SlotHoles.TXT]
+   Generated File[NRF_remote_control.LDP]
+   Generated File[NRF_remote_control.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At 19:28:40 On 19.05.2020

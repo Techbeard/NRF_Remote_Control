@@ -88,8 +88,109 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=IFGETXZO
 
+[Document4]
+DocumentPath=Job1.OutJob
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=
+
 [GeneratedDocument1]
-DocumentPath=Project Outputs for ESP32_Remote_Control\Design Rule Check - NRF_remote_control.html
+DocumentPath=Project Outputs for NRF_Remote_Control\NC Drill\NRF_remote_control-RoundHoles.TXT
+DItemRevisionGUID=
+
+[GeneratedDocument2]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control-RoundHoles.TXT
+DItemRevisionGUID=
+
+[GeneratedDocument3]
+DocumentPath=Project Outputs for NRF_Remote_Control\NC Drill\NRF_remote_control-SlotHoles.TXT
+DItemRevisionGUID=
+
+[GeneratedDocument4]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control-SlotHoles.TXT
+DItemRevisionGUID=
+
+[GeneratedDocument5]
+DocumentPath=Project Outputs for NRF_Remote_Control\NC Drill\NRF_remote_control.DRR
+DItemRevisionGUID=
+
+[GeneratedDocument6]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.DRR
+DItemRevisionGUID=
+
+[GeneratedDocument7]
+DocumentPath=Project Outputs for NRF_Remote_Control\Gerber\NRF_remote_control.EXTREP
+DItemRevisionGUID=
+
+[GeneratedDocument8]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.EXTREP
+DItemRevisionGUID=
+
+[GeneratedDocument9]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.GBL
+DItemRevisionGUID=
+
+[GeneratedDocument10]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.GBO
+DItemRevisionGUID=
+
+[GeneratedDocument11]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.GBS
+DItemRevisionGUID=
+
+[GeneratedDocument12]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.GKO
+DItemRevisionGUID=
+
+[GeneratedDocument13]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.GM1
+DItemRevisionGUID=
+
+[GeneratedDocument14]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.GTL
+DItemRevisionGUID=
+
+[GeneratedDocument15]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.GTO
+DItemRevisionGUID=
+
+[GeneratedDocument16]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.GTS
+DItemRevisionGUID=
+
+[GeneratedDocument17]
+DocumentPath=Project Outputs for NRF_Remote_Control\NC Drill\NRF_remote_control.LDP
+DItemRevisionGUID=
+
+[GeneratedDocument18]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.LDP
+DItemRevisionGUID=
+
+[GeneratedDocument19]
+DocumentPath=Project Outputs for NRF_Remote_Control\Gerber\NRF_remote_control.REP
+DItemRevisionGUID=
+
+[GeneratedDocument20]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.REP
+DItemRevisionGUID=
+
+[GeneratedDocument21]
+DocumentPath=Project Outputs for NRF_Remote_Control\Gerber\NRF_remote_control.RUL
+DItemRevisionGUID=
+
+[GeneratedDocument22]
+DocumentPath=Project Outputs for NRF_Remote_Control\NRF_remote_control.RUL
 DItemRevisionGUID=
 
 [Configuration1]

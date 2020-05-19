@@ -1,0 +1,3 @@
+Layer Pairs Export File for PCB: D:\Dokumente\GitHub\NRF_Remote_Control\Hardware\NRF_remote_control.PcbDoc
+LayersSetName=Top_Bot_Thru_Holes|DrillFile=nrf_remote_control-roundholes.txt|DrillLayers=gtl,gbl
+LayersSetName=Top_Bot_Slot_Holes|DrillFile=nrf_remote_control-slotholes.txt|DrillLayers=gtl,gbl
