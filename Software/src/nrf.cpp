@@ -1,5 +1,7 @@
 #include "nrf.h"
 #include "config.h"
+#include "globals.h"
+#include "display.h"
 
 RF24 rf(NRF_CE_PIN, NRF_CS_PIN);
 
@@ -20,12 +22,12 @@ void log(packet_t pkg) {
         case CMD_INIT:
             snprintf(buf, 200, "INIT last=%d chk=%3d ip=%08lX port=%5d len=%3d payload=%.32s", 
                 pkg.cmd.lastPacket, pkg.checksum, pkg.initPayload.ip, pkg.initPayload.port, pkg.initPayload.dataLen, pkg.initPayload.data);
-            Serial.println(buf);
+            DEBUG.println(buf);
             break;
         case CMD_DATA:
             snprintf(buf, 200, "DATA last=%d chk=%3d num=%3d len=%3d payload=%.32s", 
                 pkg.cmd.lastPacket, pkg.checksum,  pkg.dataPayload.packetNum, pkg.dataPayload.dataLen, pkg.dataPayload.data);
-            Serial.println(buf);
+            DEBUG.println(buf);
             break;
     }
 }
@@ -78,7 +80,7 @@ void sendUDPChunk() {
     rf.stopListening();
     bool success = rf.write(&pkg, pkg.dataPayload.dataLen + DATA_HEADER_LEN); // blocking for now, TODO see if it's okay
     rf.startListening();
-    Serial.print("UDP Chunk " + String(success) + " ");
+    DEBUG.print("UDP Chunk " + String(success) + " ");
     log(pkg);
 
     // if first transfer failed, don't bother with the rest of it
@@ -87,7 +89,7 @@ void sendUDPChunk() {
     }
 }
 
-void sendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size) {
+void nrfSendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size) {
     packet_t pkg;
     pkg.cmd.type = CMD_INIT;
     pkg.initPayload.ip = ip;
@@ -114,7 +116,7 @@ void sendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size) {
     rf.stopListening();
     bool success = rf.write(&pkg, pkg.initPayload.dataLen + INIT_HEADER_LEN); // blocking for now, TODO see if it's okay
     rf.startListening();
-    Serial.print("UDP Send " + String(success) + " ");
+    DEBUG.print("UDP Send " + String(success) + " ");
     log(pkg);
     
     // if first transfer failed, don't bother with the rest of it
@@ -123,13 +125,13 @@ void sendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size) {
     }
 }
 
-void sendUDP(IPAddress ip, uint16_t port, String payload) {
-    sendUDP(ip, port, (uint8_t*)payload.c_str(), payload.length() + 1);
+void nrfSendUDP(IPAddress ip, uint16_t port, String payload) {
+    nrfSendUDP(ip, port, (uint8_t*)payload.c_str(), payload.length() + 1);
 }
 
 void handlePacket(uint8_t *buf, uint16_t size) {
     packet_t pkg = *(packet_t*)buf;
-    Serial.print("Receive ");
+    DEBUG.print("Receive ");
     log(pkg);
 
     if(pkg.checksum != calcChecksum(pkg)) {
@@ -172,16 +174,23 @@ void handlePacket(uint8_t *buf, uint16_t size) {
     }
 }
 
-void initNRF() {
-    rf.begin();
+void nrfInit() {
+    DEBUG.print("Init NRF... ");
+    bool ret = rf.begin();
+    if (!ret) {
+        DEBUG.print("failed begin()");
+    }
     // rf.setPALevel(RF24_PA_LOW);
     rf.setDataRate(RF24_250KBPS);
     rf.openWritingPipe((uint8_t *) NRF_TX_ADDRESS);
     rf.openReadingPipe(1, (uint8_t *) NRF_RX_ADDRESS);
     rf.startListening();
+    DEBUG.println("done.");
+
+    // NRF health check
 }
 
-void loopNRF() {
+void nrfLoop() {
     if(txLen > 0) {
         sendUDPChunk();
     }
@@ -191,8 +200,8 @@ void loopNRF() {
         while(rf.available()) {
             rf.read(buf, rf.getPayloadSize());
         }
-        Serial.print("DEBUG Received: ");
-        Serial.println((char*)buf);
+        DEBUG.print("DEBUG Received: ");
+        DEBUG.println((char*)buf);
         handlePacket(buf, rf.getPayloadSize());
     }
 }

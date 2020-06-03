@@ -1,3 +1,4 @@
+#pragma once
 #define SENDER
 
 #ifdef __AVR__
@@ -17,3 +18,6 @@
 #endif
 
 #define MAX_PACKET_LEN  256
+
+// #define DEBUG Serial // use for serial output only
+#define DEBUG_SERIAL Serial // output to serial and OLED

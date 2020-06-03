@@ -1,3 +1,4 @@
+#pragma once
 #include <SPI.h>
 #include <RF24.h>
 #include <IPAddress.h>
@@ -42,8 +43,8 @@ typedef struct {
     };
 } packet_t;
 
-void initNRF();
-void loopNRF();
-void sendUDP(IPAddress ip, uint16_t port, String payload);
-void sendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size);
+void nrfInit();
+void nrfLoop();
+void nrfSendUDP(IPAddress ip, uint16_t port, String payload);
+void nrfSendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size);
 void setNRFCallback(void (*cb)(uint8_t*, uint16_t));
