@@ -3,6 +3,7 @@
 #include "config.h"
 #include "globals.h"
 #include "display.h"
+#include "buttonMatrix.h"
 
 #ifdef DEBUG_SERIAL
 DebugPrints DEBUG;
@@ -18,11 +19,13 @@ void setup() {
     DEBUG.println("NRF24 Remote");
     nrfInit();
     setNRFCallback(handleData);
+    btnInit();
 }
 
 uint32_t lastSend = 0;
 
 void loop() {
+    btnLoop();
     nrfLoop();
     #ifdef SENDER
     if(millis() - lastSend > 500) {

@@ -15,7 +15,13 @@ bool newLine = true;
 void dispDrawPrints() {
     u8g2.clearBuffer();
     for (int i = 0; i < LINE_COUNT; i++) {
-        u8g2.drawStr(0, LINE_HEIGHT * (i + 1), terminalLines[i].c_str());
+        uint8_t length = u8g2.drawStr(0, LINE_HEIGHT * (i + 1), terminalLines[i].c_str());
+
+        // do a premature newline if current line that gets written to overflows the display
+        if (i == lineIdx && length > u8g2.getWidth()) { 
+            lineIdx++;
+            newLine = true;
+        }
     }
     u8g2.sendBuffer();
 }

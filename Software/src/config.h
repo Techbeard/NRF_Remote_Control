@@ -1,5 +1,5 @@
 #pragma once
-#define SENDER
+// #define SENDER
 
 #ifdef __AVR__
     #define NRF_CS_PIN  8
@@ -21,3 +21,9 @@
 
 // #define DEBUG Serial // use for serial output only
 #define DEBUG_SERIAL Serial // output to serial and OLED
+
+// #define BTN_COLS        {PB15,  PA8,    PA9} //test
+// #define BTN_ROWS        {PA10, PA11,  PA12} // test
+#define BTN_COLS        {PA10,  PA3,    PA1}
+#define BTN_ROWS        {PB3,   PB5,    PB9}
+#define BTN_LED_ROWS    {PA15,  PB4,    PB8}
