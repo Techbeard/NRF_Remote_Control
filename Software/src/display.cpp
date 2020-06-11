@@ -2,7 +2,8 @@
 
 #include "Wire.h"
 
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // Full buffer
+U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // Full buffer
+// U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // Full buffer
 // U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); // Paged mode
 
 #define MAX_LINE_CHARS 44   // a bit longer and it starts to overflow to the beginning of the line
@@ -64,6 +65,7 @@ void dispPrintln(String str) {
 
 void displayInit() {
     u8g2.begin();
+    u8g2.setI2CAddress(0x78);
     u8g2.clearBuffer();
     u8g2.setFont(u8g2_font_nerhoe_tr);
     u8g2.drawStr(0, 10, "Hello World!\nNEWLINE!");
