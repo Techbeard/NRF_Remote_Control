@@ -1,0 +1,5 @@
+Removed Pin From Net: NetName=NetIC2_43 Pin=R16-2
+Removed Member From Class: ClassName=NRF_remote_control_matrix_oled Member=R16
+Added Pin To Net: NetName=NetIC2_43 Pin=IC4-20
+Added Room: Name=NRF_remote_control_main
+Added Room: Name=NRF_remote_control_matrix_oled

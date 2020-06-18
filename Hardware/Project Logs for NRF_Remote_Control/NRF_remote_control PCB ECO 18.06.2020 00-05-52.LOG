@@ -1,0 +1,4 @@
+Change Physical Footprint: Designator=GND Old Footprint=SMD_Pad New Footprint=SMD_Pad
+Change Physical Footprint: Designator=S9 Old Footprint=MP86A0BUH-G New Footprint=MP86A0BUH-G
+Change Physical Footprint: Designator=Vcc Old Footprint=SMD_Pad New Footprint=SMD_Pad
+Change Physical Footprint: Designator=X5 Old Footprint=USB-C New Footprint=USB-C

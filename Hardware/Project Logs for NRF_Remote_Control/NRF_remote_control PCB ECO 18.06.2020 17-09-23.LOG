@@ -1,0 +1,4 @@
+Added Pin To Net: NetName=3,3V Pin=R11-2
+Added Member To Class: ClassName=NRF_remote_control_matrix_oled Member=Component  OpenHardware
+Added Room: Name=NRF_remote_control_main
+Added Room: Name=NRF_remote_control_matrix_oled
