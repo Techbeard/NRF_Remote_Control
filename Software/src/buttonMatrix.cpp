@@ -3,6 +3,8 @@
 #include "config.h"
 #include "globals.h"
 
+HardwareTimer btnMatrixTimer(TIM4); 
+
 uint8_t btnCols[] = BTN_COLS;
 uint8_t btnRows[] = BTN_ROWS;
 uint8_t ledRows[] = BTN_LED_ROWS;
@@ -16,7 +18,10 @@ uint8_t ledRows[] = BTN_LED_ROWS;
 uint8_t prevBtnState[BTN_MAX_INDEX] = {0}; // can probably expend the few extra bytes
 uint8_t btnState[BTN_MAX_INDEX] = {0}; 
 uint8_t ledState[BTN_MAX_INDEX] = {0};
+uint8_t curColIdx = 0;
 
+void btnLoop(HardwareTimer* ht);
+void processButtons();
 
 void btnInit() {
     for (int i = 0; i < BTN_COL_NUM; i++) {
@@ -29,33 +34,52 @@ void btnInit() {
         pinMode(ledRows[i], INPUT);
         digitalWrite(ledRows[i], HIGH);
     }
+
+    btnMatrixTimer.attachInterrupt(btnLoop);
+    btnMatrixTimer.setOverflow(100 * BTN_COL_NUM, HERTZ_FORMAT);
+    btnMatrixTimer.resume();
 }
 
-// TODO: convert for loop to index++ and call by timer and do debouncing
-void btnLoop() {
-    for (int col = 0; col < BTN_COL_NUM; col++) {
-        digitalWrite(btnCols[col], LOW);
+// TODO: do debouncing
+// Function gets called in timer interrupt, no need to call manually
+void btnLoop(HardwareTimer* ht) {
 
-        for (int row = 0; row < BTN_ROW_NUM; row++) {
-            uint16_t index = col * BTN_ROW_NUM + row;
-            btnState[index] = digitalRead(btnRows[row]);
+    // activate column to read
+    digitalWrite(btnCols[curColIdx], LOW);
 
-            pinMode(ledRows[row], ledState[index] ? OUTPUT : INPUT);
-        }
+    // loop through all rows
+    for (int row = 0; row < BTN_ROW_NUM; row++) {
+        uint16_t index = curColIdx * BTN_ROW_NUM + row;
+        // read button state
+        btnState[index] = digitalRead(btnRows[row]);
 
-        digitalWrite(btnCols[col], HIGH);
+        // set LED to the stored state
+        pinMode(ledRows[row], ledState[index] ? OUTPUT : INPUT);
     }
 
+    // deactivate column
+    digitalWrite(btnCols[curColIdx], HIGH);
+
+    // increment counter to next column
+    curColIdx++;
+    if(curColIdx >= BTN_COL_NUM) {
+        curColIdx = 0;
+        processButtons();
+    }
+}
+
+void processButtons() {
+    // loop through all buttons
     for (uint16_t i = 0; i < BTN_MAX_INDEX; i++) {
         if (prevBtnState[i] != btnState[i]) {
             if (!btnState[i]) { // button was pressed
-                DEBUG.print(String(i));
-                ledState[i] = !ledState[i];
+                DEBUG.print(String(i)); // print number to debug
+                ledState[i] = !ledState[i]; // toggle the button LED
             }
             else { // button was released
 
             }
         }
-        prevBtnState[i] = btnState[i];
+        prevBtnState[i] = btnState[i]; // remember current button state as previous state
     }
 }

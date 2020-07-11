@@ -27,7 +27,6 @@ void setup() {
 uint32_t lastSend = 0;
 
 void loop() {
-    btnLoop();
     // nrfLoop();
     #ifdef SENDER
     if(millis() - lastSend > 500) {

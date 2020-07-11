@@ -1,6 +1,7 @@
 #pragma once
 // #define SENDER
 
+
 #ifdef __AVR__
     #define NRF_CS_PIN  8
     #define NRF_CE_PIN  7
@@ -8,6 +9,8 @@
     #define NRF_CS_PIN  PA4
     #define NRF_CE_PIN  PB13
 #endif
+
+// OLED pins are PB6 for SCL and PB7 for SDA
 
 #ifdef SENDER
     #define NRF_TX_ADDRESS "DGTW"
