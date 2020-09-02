@@ -58,8 +58,11 @@ void btnScanLoop(HardwareTimer* ht) {
     // loop through all rows
     for (int row = 0; row < BTN_ROW_NUM; row++) {
         uint16_t index = row * BTN_COL_NUM + curColIdx;
-        // read button state
-        btnState[index] = digitalRead(btnRows[row]);
+        // prevent losing a button transition if it was not processed yet (hopefully)
+        if(!btnScanDone) {
+            // read button state
+            btnState[index] = digitalRead(btnRows[row]);
+        }
 
         // set LED to the stored state
         pinMode(ledRows[row], ledState[index] ? OUTPUT : INPUT);

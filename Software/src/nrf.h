@@ -1,11 +1,13 @@
 #pragma once
 #include <SPI.h>
-#include <RF24.h>
 #include <IPAddress.h>
+#include <RF24.h>
 
 typedef enum : uint8_t {
     CMD_INIT = 0,
-    CMD_DATA = 1
+    CMD_DATA = 1,
+    CMD_ACK = 2,
+    CMD_HEARTBEAT = 3,
 } pkgType_t;
 
 typedef union {

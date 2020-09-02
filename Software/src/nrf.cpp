@@ -176,14 +176,17 @@ void handlePacket(uint8_t *buf, uint16_t size) {
 
 void nrfInit() {
     DEBUG.print("Init NRF... ");
+
     bool ret = rf.begin();
+
     if (!ret) {
         DEBUG.print("failed begin()");
     }
     // rf.setPALevel(RF24_PA_LOW);
     rf.setDataRate(RF24_250KBPS);
-    rf.openWritingPipe((uint8_t *) NRF_TX_ADDRESS);
-    rf.openReadingPipe(1, (uint8_t *) NRF_RX_ADDRESS);
+    rf.openWritingPipe(NRF_TX_ADDRESS);
+    rf.openReadingPipe(1, NRF_RX_ADDRESS);
+    rf.setChannel(110);
     rf.startListening();
     DEBUG.println("done.");
 
@@ -194,14 +197,18 @@ void nrfLoop() {
     if(txLen > 0) {
         sendUDPChunk();
     }
-
+    noInterrupts();
     if(rf.available()) {
         uint8_t buf[rf.getPayloadSize()];
         while(rf.available()) {
             rf.read(buf, rf.getPayloadSize());
         }
+        interrupts();
         DEBUG.print("DEBUG Received: ");
-        DEBUG.println((char*)buf);
+        // DEBUG.println((char*)buf);
         handlePacket(buf, rf.getPayloadSize());
+    }
+    else {
+        interrupts();
     }
 }

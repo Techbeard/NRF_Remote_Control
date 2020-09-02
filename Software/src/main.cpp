@@ -9,6 +9,8 @@
 DebugPrints DEBUG;
 #endif
 
+bool startup;
+
 void handleData(uint8_t* buf, uint16_t len) {
     DEBUG.println((char*)buf);
 }
@@ -17,17 +19,22 @@ void setup() {
     DEBUG.begin(115200);
     // pinMode(PC13, OUTPUT);
     // digitalWrite(PC13, HIGH);
+    btnInit();
+    startup = false;
+    // while(!startup) {
+    //     btnLoop();
+    // }
     displayInit();
     DEBUG.println("NRF24 Remote");
     nrfInit();
     setNRFCallback(handleData);
-    btnInit();
 }
 
 uint32_t lastSend = 0;
 
 void loop() {
-    // nrfLoop();
+    nrfLoop();
+    btnLoop();
     #ifdef SENDER
     if(millis() - lastSend > 500) {
         lastSend = millis();

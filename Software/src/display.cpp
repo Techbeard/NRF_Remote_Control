@@ -68,7 +68,7 @@ void displayInit() {
     u8g2.setI2CAddress(0x78);
     u8g2.clearBuffer();
     u8g2.setFont(u8g2_font_nerhoe_tr);
-    u8g2.drawStr(0, 10, "Hello World!\nNEWLINE!");
+    // u8g2.drawStr(0, 10, "Hello World!\nNEWLINE!");
     u8g2.sendBuffer();
 }
 

@@ -13,17 +13,17 @@
 // OLED pins are PB6 for SCL and PB7 for SDA
 
 #ifdef SENDER
-    #define NRF_TX_ADDRESS "DGTW"
-    #define NRF_RX_ADDRESS  "DRMT0"
+    #define NRF_TX_ADDRESS  0x47545700
+    #define NRF_RX_ADDRESS  0x47545701
 #else
-    #define NRF_RX_ADDRESS "DGTW"
-    #define NRF_TX_ADDRESS  "DRMT0"
+    #define NRF_RX_ADDRESS  0x47545700
+    #define NRF_TX_ADDRESS  0x47545701
 #endif
 
 #define MAX_PACKET_LEN  256
 
-// #define DEBUG Serial // use for serial output only
-#define DEBUG_SERIAL Serial // output to serial and OLED
+// #define DEBUG SerialUSB // use for serial output only
+#define DEBUG_SERIAL SerialUSB // output to serial and OLED
 
 // #define BTN_COLS        {PB15,  PA8,    PA9} //test
 // #define BTN_ROWS        {PA10, PA11,  PA12} // test
