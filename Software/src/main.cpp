@@ -26,7 +26,7 @@ void setup() {
     // }
     displayInit();
     DEBUG.println("NRF24 Remote");
-    nrfInit();
+    // nrfInit();
     setNRFCallback(handleData);
 }
 
@@ -35,6 +35,14 @@ uint32_t lastSend = 0;
 void loop() {
     nrfLoop();
     btnLoop();
+    // u8g2.clearBuffer();
+    // uint8_t x = u8g2.getDisplayWidth() - 1;
+    // uint8_t y = u8g2.getDisplayHeight() - 1;
+    // u8g2.drawLine(0, 0, x, 0);
+    // u8g2.drawLine(0, y, x, y);
+    // u8g2.drawLine(0, 0, 0, y);
+    // u8g2.drawLine(x, 0, x, y);
+    // u8g2.sendBuffer();
     #ifdef SENDER
     if(millis() - lastSend > 500) {
         lastSend = millis();
