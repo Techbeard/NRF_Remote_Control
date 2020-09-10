@@ -40,8 +40,8 @@ void nrfHandleData() {
 void nrfInit() {
     nrfSPI.begin();
     mesh.setNodeID(0);
-    mesh.begin();
-    // radio.printDetails();
+    mesh.begin(97, RF24_250KBPS);
+    radio.printDetails();
 }
 
 void nrfLoop() {
