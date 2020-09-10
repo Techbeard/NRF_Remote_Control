@@ -1,6 +1,20 @@
 #pragma once
-// #define SENDER
+#define SENDER
 
+
+#define TARGET_IP   IPAddress(192,168,137,1)
+#define TARGET_PORT 1234
+
+#define BUTTON_MAPPING \
+    {TARGET_IP, TARGET_PORT, "Button 0"}, \
+    {TARGET_IP, TARGET_PORT, "Button 1"}, \
+    {TARGET_IP, TARGET_PORT, "Button 2"}, \
+    {TARGET_IP, TARGET_PORT, "Button 3"}, \
+    {TARGET_IP, TARGET_PORT, "Button 4"}, \
+    {TARGET_IP, TARGET_PORT, "Button 5"}, \
+    {TARGET_IP, TARGET_PORT, "Button 6"}, \
+    {TARGET_IP, TARGET_PORT, "Button 7"}, \
+    {TARGET_IP, TARGET_PORT, "Button 8"}, \
 
 #ifdef __AVR__
     #define NRF_CS_PIN  8
@@ -30,3 +44,5 @@
 #define BTN_COLS        {PA10,  PA2,    PA1}
 #define BTN_ROWS        {PB3,   PB5,    PB9}
 #define BTN_LED_ROWS    {PA15,  PB4,    PB8}
+
+#define BTN_NUM 9

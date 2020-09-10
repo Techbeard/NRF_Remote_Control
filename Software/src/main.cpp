@@ -1,3 +1,5 @@
+// Set UIP_CONF_UDP to 1 in RF24Ethernet/uip-conf.h
+
 #include <Arduino.h>
 #include "nrf.h"
 #include "config.h"
@@ -20,14 +22,15 @@ void setup() {
     // pinMode(PC13, OUTPUT);
     // digitalWrite(PC13, HIGH);
     btnInit();
-    startup = false;
+    // startup = false;
     // while(!startup) {
     //     btnLoop();
     // }
     displayInit();
     DEBUG.println("NRF24 Remote");
-    // nrfInit();
-    setNRFCallback(handleData);
+    nrfInit();
+    // setNRFCallback(handleData);
+    DEBUG.println("Remote ready for use!");
 }
 
 uint32_t lastSend = 0;
@@ -44,10 +47,10 @@ void loop() {
     // u8g2.drawLine(x, 0, x, y);
     // u8g2.sendBuffer();
     #ifdef SENDER
-    if(millis() - lastSend > 500) {
-        lastSend = millis();
-        nrfSendUDP(IPAddress((uint32_t)0x01020304), 12345, "Hello World " + String(millis()));
-    }
+    // if(millis() - lastSend > 500) {
+    //     lastSend = millis();
+    //     nrfSendUDP(IPAddress((uint32_t)0x01020304), 12345, "Hello World " + String(millis()));
+    // }
     #endif
     // delay(500);
     // digitalWrite(PC13, HIGH);

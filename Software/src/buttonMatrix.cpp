@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "config.h"
 #include "globals.h"
+#include "nrf.h"
 
 HardwareTimer btnMatrixTimer(TIM4); 
 
@@ -23,6 +24,13 @@ bool btnScanDone = false;
 
 void btnScanLoop(HardwareTimer* ht);
 void processButtons();
+
+void btnCallback(uint8_t btnId, bool state) {
+    if(state) { // pressed
+        // DEBUG.print(String(btnId));
+        nrfSendButtonAction(btnId);
+    }
+}
 
 void btnInit() {
     for (int i = 0; i < BTN_COL_NUM; i++) {
@@ -83,20 +91,21 @@ void processButtons() {
     // loop through all buttons
     for (uint16_t i = 0; i < BTN_MAX_INDEX; i++) {
         if (prevBtnState[i] != btnState[i]) {
-            if (!btnState[i]) { // button was pressed
-                switch(i) {
-                    case 0:
-                        startup = true;
-                        break;
-                    default:
-                        DEBUG.print(String(i)); // print number to debug
-                }
+            // if (!btnState[i]) { // button was pressed
+            //     switch(i) {
+            //         case 0:
+            //             startup = true;
+            //             break;
+            //         default:
+            //             DEBUG.print(String(i)); // print number to debug
+            //     }
 
-                ledState[i] = !ledState[i]; // toggle the button LED
-            }
-            else { // button was released
+            //     ledState[i] = !ledState[i]; // toggle the button LED
+            // }
+            // else { // button was released
 
-            }
+            // }
+            btnCallback(i, !btnState[i]);
         }
         prevBtnState[i] = btnState[i]; // remember current button state as previous state
     }
