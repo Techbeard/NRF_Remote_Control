@@ -39,10 +39,10 @@ class be_uint32_t {
 public:
     be_uint32_t() : be_val_(0) {
     }
-    // Transparently cast from uint16_t
+    // Transparently cast from uint32_t
     be_uint32_t(const uint32_t &val) : be_val_(htonl(val)) {
     }
-    // Transparently cast to uint16_t
+    // Transparently cast to uint32_t
     operator uint32_t() const {
             return ntohl(be_val_);
     }
@@ -68,6 +68,8 @@ typedef struct __attribute__((packed)) {
     be_uint32_t dstIp;
     uint8_t payload[];  // flexible array member
 } ipPkt_t;
+
+#define ipHeaderLen 20
 
 #define IPV4_PROTOCOL_TCP 0x06
 #define IPV4_PROTOCOL_UDP 0x11

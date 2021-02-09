@@ -1,4 +1,8 @@
 import socket
+import winsound
+duration = 100  # milliseconds
+freq = 880  # Hz
+
 
 sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 sock.bind(("0.0.0.0", 1234))
@@ -14,5 +18,11 @@ try:
         address = bytesAddressPair[1]
 
         print("{} {}".format(address, message))
+        if(message == 'Button 0'):
+            winsound.Beep(freq, duration)
+            pass
+        if address[0] != "127.0.0.1": # ignore own message to prevent loop
+            sock.sendto(message, address) # echo sent packet
+            # sock.sendto(b"1234567890123456798012345678901234567890123456789012345678901234567890123456789012345678901234567890", address) 
 except KeyboardInterrupt:
     pass

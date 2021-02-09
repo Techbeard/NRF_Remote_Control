@@ -16,6 +16,7 @@ RF24EthernetClass RF24Ethernet(radio, network, mesh);
 
 RF24UDP udpClient; // Set UIP_CONF_UDP to 1 in RF24Ethernet/uip-conf.h
 
+RF24Server server(1337);
 
 void nrfInit() {
     DEBUG.println("Radio Init...");
@@ -35,6 +36,8 @@ void nrfInit() {
     DEBUG.println(String(radio.getChannel(), 16));
     DEBUG.println("Radio Init done!");
     radio.printDetails();
+
+    server.begin();
 }
 
 uint32_t meshTimer;
@@ -47,10 +50,32 @@ void nrfLoop() {
             uint16_t addr = mesh.renewAddress(100); // 100ms timeout for mesh renewal (original: 7500)
             if(!addr) {
                 DEBUG.println("Mesh connection attempt failed");
+                meshTimer = 0; // immediately try again
             }
         }
     }
 
+    if(EthernetClient client = server.available()) {
+        DEBUG.println("Got something");
+        while(client.available()) {
+            DEBUG.print(String((char)client.read()));
+        }
+        DEBUG.println("");
+    }
+
+    if(mesh.update() == EXTERNAL_DATA_TYPE) {
+        RF24NetworkFrame *frame = network.frag_ptr;
+        size_t size = frame->message_size;
+        uint8_t *payload = frame->message_buffer;
+
+        // print raw received bytes
+        for(size_t i = 0; i < size; i++) {
+            char buf[5];
+            snprintf(buf, 10, "%02X ", payload[i]);
+            DEBUG.print(buf);
+        }
+        DEBUG.println("");
+    }
 }
 void nrfSendUDP(IPAddress ip, uint16_t port, uint8_t* payload, uint16_t size) {
     // DEBUG.print("Snd... ");

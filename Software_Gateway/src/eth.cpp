@@ -4,8 +4,9 @@
 #include <Ethernet.h>
 #include "ip.h"
 #include "globals.h"
+#include "nrf.h"
 
-EthernetUDP udpClient;
+EthernetUDP udp;
 
 uint8_t macAddr[6];
 char macStr[13];
@@ -99,7 +100,22 @@ void ethInit() {
     generateMAC(macAddr);
     Ethernet.init(ETH_CS);
     ethConnect();
-    udpClient.begin(1337);
+    udp.begin(UDP_LISTEN_PORT);
+}
+
+void ethLoop() {
+    int packetSize = udp.parsePacket();
+    if(packetSize) {
+        char packetBuf[UDP_MAX_PACKET_LEN];
+        udp.read(packetBuf, UDP_MAX_PACKET_LEN);
+
+        if(packetSize > UDP_MAX_PACKET_LEN) {
+            DEBUG.println("[UDP] Received more data than could fit in buffer");
+            packetSize = UDP_MAX_PACKET_LEN;
+        }
+
+        nrfSendIpPacketToRemote(udp.remoteIP(), udp.remotePort(), packetBuf, packetSize);
+    }
 }
 
 void ethForwardIpPacket(uint8_t *rawIpBytes, size_t size) {
@@ -119,8 +135,8 @@ void ethForwardIpPacket(uint8_t *rawIpBytes, size_t size) {
         DEBUG.println();
 
 
-        udpClient.beginPacket(IPAddress(ip), udpPacket->dstPort);
-        udpClient.write(udpPacket->payload, udpPayloadLen);
-        udpClient.endPacket();
+        udp.beginPacket(IPAddress(ip), udpPacket->dstPort);
+        udp.write(udpPacket->payload, udpPayloadLen);
+        udp.endPacket();
     }
 }
