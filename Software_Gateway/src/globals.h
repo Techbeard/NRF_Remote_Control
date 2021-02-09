@@ -11,4 +11,4 @@
 #define NRF_MISO    PA6 // SPI1_MISO
 #define NRF_SCK     PA5 // SPI1_SCK 
 #define NRF_CS      PA4 // SPI1_CS  
-#define NRF_CE_PIN  PB0
+#define NRF_CE_PIN  PB1
