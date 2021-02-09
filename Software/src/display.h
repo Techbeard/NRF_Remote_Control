@@ -8,3 +8,4 @@ void displayInit();
 void displayLoop();
 void dispPrint(String str);
 void dispPrintln(String str);
+void dispWrite(const char *buffer, size_t size); // ATTENTION: non-null-terminated strings WILL cause a buffer overread

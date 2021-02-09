@@ -11,6 +11,14 @@
 DebugPrints DEBUG;
 #endif
 
+// enable printf on DEBUG
+extern "C" {
+    int _write(int file, char *ptr, int len) {
+        DEBUG.write(ptr, len);
+        return len;
+    }
+}
+
 bool startup;
 
 void handleData(uint8_t* buf, uint16_t len) {

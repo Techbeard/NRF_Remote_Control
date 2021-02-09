@@ -63,6 +63,11 @@ void dispPrintln(String str) {
     dispPrint(str + "\n");
 }
 
+// ATTENTION: non-null-terminated strings WILL cause a buffer overread
+void dispWrite(const char *buffer, size_t size) {
+    dispPrint(buffer);
+}
+
 void displayInit() {
     u8g2.begin();
     u8g2.setI2CAddress(0x78);
