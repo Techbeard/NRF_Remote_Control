@@ -22,7 +22,13 @@ try:
             winsound.Beep(freq, duration)
             pass
         if address[0] != "127.0.0.1": # ignore own message to prevent loop
-            sock.sendto(message, address) # echo sent packet
+            # sock.sendto(message, address) # echo sent packet
             # sock.sendto(b"1234567890123456798012345678901234567890123456789012345678901234567890123456789012345678901234567890", address) 
+            btn = message.decode().split(' ')[1]
+            cmd = "setLed;{};1".format(btn)
+            if btn == "0":
+                cmd = "clearLeds"
+            sock.sendto(cmd.encode(), address)
+            sock.sendto(b'print;' + message + b'\n', address) # echo sent packet to display
 except KeyboardInterrupt:
     pass

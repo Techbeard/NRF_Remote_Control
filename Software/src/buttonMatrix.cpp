@@ -49,7 +49,17 @@ void btnInit() {
     btnMatrixTimer.resume();
 }
 
-// TODO: do debouncing
+void btnEnableMultiplexing(bool status) {
+    if(status) {
+        btnMatrixTimer.resume();
+    }
+    else {
+        btnMatrixTimer.pause();
+        // TODO: deactivate LED outputs for a bit less glitching
+    }
+}
+
+// TODO: do debouncing?
 // Function gets called in timer interrupt, no need to call manually
 void btnScanLoop(HardwareTimer* ht) {
     // deactivate previous column
@@ -115,5 +125,11 @@ void btnLoop() {
     if(btnScanDone) {
         btnScanDone = false;
         processButtons();
+    }
+}
+
+void btnSetLed(uint8_t index, uint8_t state) {
+    if(index < BTN_NUM) {
+        ledState[index] = state;
     }
 }

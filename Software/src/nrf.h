@@ -14,3 +14,10 @@ typedef struct {
     uint16_t port;
     const char* payload;
 } buttonAction_t;
+
+typedef struct {
+    uint32_t fromIp;
+    uint16_t fromPort;
+    uint16_t payloadLen;
+    uint8_t payload[];
+} dataToRemote_t;

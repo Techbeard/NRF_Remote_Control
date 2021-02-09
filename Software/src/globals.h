@@ -3,8 +3,6 @@
 #include "config.h"
 #include "display.h"
 
-extern bool startup;
-
 #ifdef DEBUG_SERIAL
 class DebugPrints {
     public:
